@@ -1,0 +1,194 @@
+{
+ "title": "Google Trends Compare: unlimited keywords on one scale",
+ "type": "object",
+ "schemaVersion": 1,
+ "properties": {
+  "keywords": {
+   "title": "Keywords",
+   "type": "array",
+   "editor": "stringList",
+   "description": "Any number of search terms (Google's own UI caps at 5). All of them come back on ONE shared 0-100 scale, so 40 brands or products are directly comparable. Each keyword x country = one billed keyword series ($0.004 on the Free plan).",
+   "prefill": [
+    "coffee",
+    "tea",
+    "beer",
+    "kombucha",
+    "matcha",
+    "energy drink",
+    "cold brew"
+   ],
+   "minItems": 1
+  },
+  "geos": {
+   "title": "Countries",
+   "type": "array",
+   "editor": "stringList",
+   "description": "ISO country codes (US, GB, DE, BR, IN, JP...) or WORLDWIDE. Each country gets its own consistent scale. Empty = US.",
+   "prefill": [
+    "US"
+   ],
+   "default": [
+    "US"
+   ]
+  },
+  "timeRange": {
+   "title": "Time range",
+   "type": "string",
+   "editor": "textfield",
+   "description": "Presets: today 1-m, today 3-m, today 12-m, today 5-y, all (since 2004), or today N-y / N-m / N-d, or an explicit range \"YYYY-MM-DD YYYY-MM-DD\". Google picks daily (<~8 months), weekly (<5 years) or monthly resolution unless you choose daily-stitched.",
+   "default": "today 12-m",
+   "prefill": "today 12-m"
+  },
+  "resolution": {
+   "title": "Resolution",
+   "type": "string",
+   "editor": "select",
+   "enum": [
+    "auto",
+    "daily-stitched"
+   ],
+   "enumTitles": [
+    "Google default (daily/weekly/monthly)",
+    "Daily for any range (stitched windows)"
+   ],
+   "default": "auto",
+   "description": "auto = whatever Google returns for the range (daily/weekly/monthly; cheapest). daily-stitched = daily points for ANY range via overlapping 240-day windows; adds daily-history-year events ($0.003 per keyword x country x year on the Free plan) when the range is longer than 240 days."
+  },
+  "scaleMode": {
+   "title": "Scale mode",
+   "type": "string",
+   "editor": "select",
+   "enum": [
+    "accurate",
+    "fast"
+   ],
+   "enumTitles": [
+    "Accurate (pre-rank + size-based tiers)",
+    "Fast (single shared anchor)"
+   ],
+   "default": "accurate",
+   "description": "accurate (recommended) = pre-rank pass + size-based tiers chained through shared link terms, so small keywords stay precise next to giants. fast = one shared anchor keyword (fewer requests, less precise for small terms). Same price."
+  },
+  "outputFormat": {
+   "title": "Output format",
+   "type": "string",
+   "editor": "select",
+   "enum": [
+    "long",
+    "wide"
+   ],
+   "enumTitles": [
+    "One row per keyword x date",
+    "One row per date (keywords as columns)"
+   ],
+   "default": "long",
+   "description": "long = one row per keyword x country x date (easiest to filter/chart). wide = one row per country x date with a values{keyword: value} object (much smaller dataset for big keyword sets). Same price.",
+   "sectionCaption": "Output"
+  },
+  "anchorKeyword": {
+   "title": "Pre-rank anchor (optional)",
+   "type": "string",
+   "editor": "textfield",
+   "description": "Keyword used for the pre-rank pass. Empty = first keyword. Use a mid-volume term in your niche if your first keyword is tiny or huge."
+  },
+  "verifySample": {
+   "title": "Verify against a real 5-term Google chart",
+   "type": "boolean",
+   "default": false,
+   "description": "Makes one extra real 5-keyword Google request across tiers and stores the mean absolute error of the stitched scale vs Google's own chart in the QA record (typically 0.05-0.25 points). Free."
+  },
+  "category": {
+   "title": "Category id",
+   "type": "integer",
+   "default": 0,
+   "description": "Google Trends category id (0 = all categories, e.g. 71 = Food & Drink, 7 = Finance). Disambiguates words like \"apple\".",
+   "minimum": 0
+  },
+  "property": {
+   "title": "Search property",
+   "type": "string",
+   "editor": "select",
+   "enum": [
+    "",
+    "images",
+    "news",
+    "froogle",
+    "youtube"
+   ],
+   "enumTitles": [
+    "Web search",
+    "Image search",
+    "News search",
+    "Google Shopping",
+    "YouTube search"
+   ],
+   "default": "",
+   "description": "Which Google search property to measure."
+  },
+  "proxyMode": {
+   "title": "Proxy",
+   "type": "string",
+   "editor": "select",
+   "enum": [
+    "auto",
+    "datacenter",
+    "residential",
+    "none"
+   ],
+   "enumTitles": [
+    "Auto (datacenter, residential fallback)",
+    "Datacenter only",
+    "Residential only",
+    "No proxy"
+   ],
+   "default": "auto",
+   "sectionCaption": "Advanced",
+   "description": "Datacenter by default; switches to residential automatically after repeated datacenter failures."
+  },
+  "datacenterGroups": {
+   "title": "Datacenter proxy groups",
+   "type": "array",
+   "editor": "stringList",
+   "description": "Empty = Apify auto datacenter selection."
+  },
+  "residentialCountry": {
+   "title": "Residential proxy country",
+   "type": "string",
+   "editor": "textfield",
+   "description": "Optional ISO country for residential exits."
+  },
+  "pacingSecs": {
+   "title": "Seconds between Google requests (min 1.5)",
+   "type": "number",
+   "default": 1.5,
+   "minimum": 1.5,
+   "description": "Minimum gap between Google requests (never below 1.5 s)."
+  },
+  "maxAttempts": {
+   "title": "Max attempts per request",
+   "type": "integer",
+   "default": 5,
+   "minimum": 1,
+   "maximum": 8,
+   "description": "Retries with 2/4/8/16 s backoff; new IP after the 2nd failure."
+  },
+  "fallbackAfterFailures": {
+   "title": "Switch to residential after N datacenter failures",
+   "type": "integer",
+   "default": 6,
+   "minimum": 1,
+   "description": "Datacenter failures before switching to residential (auto mode)."
+  },
+  "tierMaxRatio": {
+   "title": "Max size ratio inside a tier",
+   "type": "number",
+   "default": 10,
+   "minimum": 2,
+   "description": "A tier only admits keywords within this size ratio of its top keyword (precision for small terms)."
+  }
+ },
+ "required": [
+  "keywords"
+ ],
+ "description": "Compare any number of keywords on ONE consistent Google Trends 0-100 scale, in any countries, with optional daily history for any range. Pay per keyword series."
+}

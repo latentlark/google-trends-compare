@@ -1,0 +1,16 @@
+{
+  "actorSpecification": 1,
+  "name": "google-trends-compare",
+  "title": "Google Trends Compare: Unlimited Keywords, One Scale",
+  "version": "0.1",
+  "buildTag": "latest",
+  "dockerfile": "../Dockerfile",
+  "input": "./input_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "description": "Compare unlimited keywords on one consistent Google Trends 0-100 scale (Google caps at 5), any country or worldwide, with daily history for any range back to 2004. Auto datacenter + residential fallback. Pay per keyword series.",
+  "readme": "../README.md",
+  "defaultMemoryMbytes": 256,
+  "output": "./output_schema.json"
+}

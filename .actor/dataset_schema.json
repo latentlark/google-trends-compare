@@ -1,0 +1,91 @@
+{
+  "actorSpecification": 1,
+  "fields": {},
+  "views": {
+    "overview": {
+      "title": "Interest over time (one consistent scale)",
+      "transformation": {
+        "fields": [
+          "keyword",
+          "geo",
+          "date",
+          "value",
+          "resolution",
+          "isPartial",
+          "tier",
+          "scaleId"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "keyword": {
+            "label": "Keyword"
+          },
+          "geo": {
+            "label": "Geo"
+          },
+          "date": {
+            "label": "Date"
+          },
+          "value": {
+            "label": "Interest (0-100, shared scale)",
+            "format": "number"
+          },
+          "resolution": {
+            "label": "Resolution"
+          },
+          "isPartial": {
+            "label": "Partial",
+            "format": "boolean"
+          },
+          "tier": {
+            "label": "Tier",
+            "format": "number"
+          },
+          "scaleId": {
+            "label": "Scale id"
+          }
+        }
+      }
+    },
+    "wide": {
+      "title": "Wide format (one row per date)",
+      "transformation": {
+        "fields": [
+          "geo",
+          "date",
+          "values",
+          "resolution",
+          "isPartial",
+          "scaleId"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "geo": {
+            "label": "Geo"
+          },
+          "date": {
+            "label": "Date"
+          },
+          "values": {
+            "label": "Values (keyword: 0-100)",
+            "format": "object"
+          },
+          "resolution": {
+            "label": "Resolution"
+          },
+          "isPartial": {
+            "label": "Partial",
+            "format": "boolean"
+          },
+          "scaleId": {
+            "label": "Scale id"
+          }
+        }
+      }
+    }
+  }
+}

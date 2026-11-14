@@ -1,0 +1,17 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Google Trends Compare output",
+  "description": "Interest-over-time rows on one shared 0-100 scale, plus a QA record (tiers, link factors, stitch checks, billing, network stats).",
+  "properties": {
+    "overview": {
+      "type": "string",
+      "title": "Interest over time",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+    },
+    "qa": {
+      "type": "string",
+      "title": "QA record",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/QA"
+    }
+  }
+}
